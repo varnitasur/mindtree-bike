@@ -27,9 +27,48 @@ node {
    sh label: '', script: 'mvn package'
   }
   
+   stage("Quality Gate")
+    {
+    timeout(time: 1, unit: 'HOURS') 
+    { 
+    def qg=waitForQualityGate()
+        if(qg.status!='OK'){
+	currentBuild.status='FAILURE'
+	error "Pipeline aborted due to Quality Gate Failure: ${qg.status}"
+	}
+    }
+}
    stage('Archive-Artifacts') {
    archiveArtifacts 'target/*.war'
   }
+  stage('Jfrog Artifacory Upload') {
+        def server= Artifactory.server 'Artifactory'
+                    def uploadSpec= """{
+                        "files": [{
+                        "pattern": "target/*.war",
+                        "target": "petclinic"}]
+                    }"""
+        server.upload(uploadSpec)
+        
+        }
+	stage('Jfrog Artifactory download'){
+    def server= Artifactory.server 'Artifactory'
+    def downloadSpec = """{
+    "files": [
+    {
+      "pattern": "petclinic/*.war",
+      "target": "/root/downloadArtifacts/petclinic/"
+      
+    }
+    ]
+    }"""
+    server.download(downloadSpec)
+   
+} 
+	stage('Docker deploy approval')
+	{
+	 input "Deploy to prod?"
+	}
    stage('Docker-Stage-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
   }
