@@ -18,7 +18,7 @@
 
 
   - name: Download Tomcat
-    get_url: url=http://apachemirror.wuchna.com/tomcat/tomcat-8/v8.5.50/bin/apache-tomcat-8.5.50.tar.gz dest=/opt/SP/apps/tomcat.tar.gz mode=0755 
+    get_url: url=http://apachemirror.wuchna.com/tomcat/tomcat-9/v9.0.30/bin/apache-tomcat-9.0.30.tar.gz dest=/opt/SP/apps/tomcat.tar.gz mode=0755 
 
   - name: Extract Tomcat
     command: "tar zxf /opt/SP/apps/tomcat.tar.gz  -C /opt/SP/apps/tomcat --strip-components 1"
@@ -29,8 +29,8 @@
     - Restart Tomcat
 
 
-  - name: Copy Petclinic Project War Files
-    copy: src=templates/petclinic.war dest=/opt/SP/apps/tomcat/webapps/ mode=0644
+  - name: Copy Bike Project War Files
+    copy: src=templates/brandmanagement-0.0.1-SNAPSHOT.war dest=/opt/SP/apps/tomcat/webapps/ mode=0644
 
   handlers:
   - name: Restart Tomcat
