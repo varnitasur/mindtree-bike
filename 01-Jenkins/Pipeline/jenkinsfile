@@ -26,7 +26,11 @@ node {
    stage('Maven-Package') {
    sh label: '', script: 'mvn package'
   }
-  
+   stage('Sonar Analysis'){
+        withSonarQubeEnv('SonarQube'){
+         sh 'mvn sonar:sonar'
+        }  
+ }  
    stage("Quality Gate")
     {
     timeout(time: 1, unit: 'HOURS') 
