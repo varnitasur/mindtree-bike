@@ -46,7 +46,7 @@ node {
                     def uploadSpec= """{
                         "files": [{
                         "pattern": "target/*.war",
-                        "target": "petclinic"}]
+                        "target": "bike"}]
                     }"""
         server.upload(uploadSpec)
         
@@ -57,7 +57,7 @@ node {
     "files": [
     {
       "pattern": "petclinic/*.war",
-      "target": "/root/downloadArtifacts/petclinic/"
+      "target": "/root/downloadArtifacts/bike/"
       
     }
     ]
