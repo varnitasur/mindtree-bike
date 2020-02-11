@@ -1,4 +1,4 @@
-terraform {
+ terraform {
   backend "local" {
     path = "/tmp/terraform/workspace/terraform.tfstate"
   }
