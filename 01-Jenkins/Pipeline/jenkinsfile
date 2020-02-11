@@ -31,17 +31,7 @@ node {
          sh 'mvn sonar:sonar'
         }  
  }  
-   stage("Quality Gate")
-    {
-    timeout(time: 1, unit: 'HOURS') 
-    { 
-    def qg=waitForQualityGate()
-        if(qg.status!='OK'){
-	currentBuild.status='FAILURE'
-	error "Pipeline aborted due to Quality Gate Failure: ${qg.status}"
-	}
-    }
-}
+   
    stage('Archive-Artifacts') {
    archiveArtifacts 'target/*.war'
   }
